@@ -1,7 +1,9 @@
-export default function AuthLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return <main>{children}</main>;
+import AuthForm from "@/components/auth/auth-form";
+
+export default function SignUpPage() {
+  return (
+    <div>
+      <AuthForm type="sign-up" />
+    </div>
+  );
 }
