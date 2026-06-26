@@ -1,8 +1,8 @@
-import { ArrowRightLeft, House, Landmark, Send } from "lucide-react";
+import { ArrowRightLeft, Home, Landmark, Send } from "lucide-react";
 
 export const sidebarLinks = [
   {
-    icon: House,
+    icon: Home,
     route: "/",
     label: "Home",
   },

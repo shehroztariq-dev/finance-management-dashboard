@@ -15,6 +15,7 @@ import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import z from "zod";
+import { signUp } from "@/lib/actions/user.actions";
 
 type AuthFormProps = {
   type: "sign-in" | "sign-up";
@@ -23,8 +24,7 @@ type AuthFormProps = {
 // AuthForm.tsx
 export default function AuthForm({ type }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-
-  const user = false;
+  const [user, setUser] = useState();
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,6 +45,10 @@ export default function AuthForm({ type }: AuthFormProps) {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
+      if (type === "sign-up") {
+        const newUser = await signUp(data as SignUpParams);
+        setUser(newUser);
+      }
       console.log(data);
       setIsLoading(false);
     } catch (error) {
