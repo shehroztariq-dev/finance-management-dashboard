@@ -26,14 +26,14 @@ export default function RightSidebar({
         <div className="relative flex px-6 max-xl:justify-center">
           <div className="flex items-center justify-center absolute -top-8 size-24 rounded-full bg-gray-100 border-8 border-white p-2 shadow-profile">
             <span className="text-5xl font-bold text-gray-400">
-              {user.firstName[0]}
+              {user?.name[0]}
             </span>
           </div>
           <div className="flex flex-col pt-24">
             <h1 className="text-24 font-semibold text-gray-900">
-              {user.firstName} {user.lastName}
+              {user?.name}
             </h1>
-            <p className=" text-16 font-normal text-gray-600">{user.email}</p>
+            <p className=" text-16 font-normal text-gray-600">{user?.email}</p>
           </div>
         </div>
       </section>

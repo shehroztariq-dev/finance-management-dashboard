@@ -16,13 +16,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import { LogOut } from "lucide-react";
 import { sidebarLinks } from "@/lib/constants";
+import Footer from "./Footer";
 
-export default function AppSidebar() {
-  const router = useRouter();
+export default function AppSidebar({ user }: SiderbarProps) {
   const pathname = usePathname();
 
   return (
@@ -76,36 +73,9 @@ export default function AppSidebar() {
       </SidebarContent>
 
       {/* Footer */}
-      {/* <SidebarFooter className="border-t p-3">
-        <div className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center">
-          <Avatar className="h-10 w-10">
-            <AvatarImage
-              src={user?.image ?? undefined}
-              alt={user?.name ?? undefined}
-            />
-            <AvatarFallback className="bg-gray-200">
-              {user?.name?.[0]}
-            </AvatarFallback>
-          </Avatar>
-
-          <div className="flex flex-1 items-center justify-between overflow-hidden group-data-[collapsible=icon]:hidden">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium">{user?.name}</p>
-
-              <p className="truncate text-xs text-muted-foreground">
-                {user?.email}
-              </p>
-            </div>
-
-            <button
-              className="ml-2 text-muted-foreground transition hover:text-red-500"
-              aria-label="Logout"
-              onClick={handlSignOut}>
-              <LogOut size={18} />
-            </button>
-          </div>
-        </div>
-      </SidebarFooter> */}
+      <SidebarFooter>
+        <Footer user={user} />
+      </SidebarFooter>
     </Sidebar>
   );
 }

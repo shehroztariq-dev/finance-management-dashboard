@@ -2,9 +2,10 @@ import Image from "next/image";
 
 export default function BrandLogo() {
   return (
-    <div className="flex items-center justify-center gap-2">
-      <Image src="/logo.svg" width={36} height={36} alt="logo" priority />
-      <p className="text-xl font-bold font-mono">Horizon</p>
+    <div className="flex items-center gap-2">
+      <Image src="/logo.svg" width={36} height={36} alt="Logo" priority />
+
+      <p className="font-sans text-2xl font-bold">Numera</p>
     </div>
   );
 }

@@ -9,11 +9,19 @@ export const signIn = async ({ email, password }: signInProps) => {
   try {
     const { account } = await createAdminClient();
 
-    const response = await account.createEmailPasswordSession(email, password);
+    const session = await account.createEmailPasswordSession(email, password);
 
-    return parseStringify(response);
+    (await cookies()).set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    return parseStringify(session);
   } catch (error) {
-    console.error("Error", error);
+    console.error("Sign in error:", error);
+    return null;
   }
 };
 
@@ -47,22 +55,34 @@ export const signUp = async (userData: SignUpParams) => {
 
 export async function getLoggedInUser() {
   try {
-    const { account } = await createSessionClient();
-    const user = await account.get();
+    const sessionClient = await createSessionClient();
+
+    if (!sessionClient) {
+      return null;
+    }
+
+    const user = await sessionClient.account.get();
+
     return parseStringify(user);
   } catch (error) {
+    console.error("getLoggedInUser error:", error);
     return null;
   }
 }
 
 export const logoutAccount = async () => {
   try {
-    const { account } = await createSessionClient();
+    const sessionClient = await createSessionClient();
+
+    if (sessionClient) {
+      await sessionClient.account.deleteSession("current");
+    }
 
     (await cookies()).delete("appwrite-session");
 
-    await account.deleteSession("current");
+    return true;
   } catch (error) {
-    return null;
+    console.error("Logout error:", error);
+    return false;
   }
 };

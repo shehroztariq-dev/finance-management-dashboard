@@ -15,7 +15,9 @@ import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import z from "zod";
-import { signUp } from "@/lib/actions/user.actions";
+import { signIn, signUp } from "@/lib/actions/user.actions";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type AuthFormProps = {
   type: "sign-in" | "sign-up";
@@ -25,6 +27,7 @@ type AuthFormProps = {
 export default function AuthForm({ type }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState();
+  const router = useRouter();
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,24 +45,40 @@ export default function AuthForm({ type }: AuthFormProps) {
       ssn: "",
     },
   });
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
+
     try {
       if (type === "sign-up") {
         const newUser = await signUp(data as SignUpParams);
         setUser(newUser);
+        toast.success("Account created! Please link your bank account.");
+        return;
       }
-      console.log(data);
-      setIsLoading(false);
+
+      if (type === "sign-in") {
+        const response = await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        if (!response) {
+          console.log("Sign in failed");
+          return;
+        }
+        toast.success("Sign in successfull");
+        router.refresh();
+        router.push("/");
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Authentication error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex h-screen items-center mx-10">
+    <div className="flex h-screen w-full items-center justify-center">
       <div className="flex flex-col gap-4 w-full max-w-xl">
         <header className="flex flex-col gap-4">
           <BrandLogo />
