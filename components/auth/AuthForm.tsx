@@ -18,6 +18,7 @@ import z from "zod";
 import { signIn, signUp } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import PlaidLink from "../PlaidLink";
 
 type AuthFormProps = {
   type: "sign-in" | "sign-up";
@@ -63,15 +64,16 @@ export default function AuthForm({ type }: AuthFormProps) {
           password: data.password,
         });
         if (!response) {
-          console.log("Sign in failed");
+          toast.error("Invalid email or password.");
           return;
         }
-        toast.success("Sign in successfull");
+        toast.success("Signed in successfully");
         router.refresh();
         router.push("/");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Authentication error:", error);
+      toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +82,7 @@ export default function AuthForm({ type }: AuthFormProps) {
   return (
     <div className="flex h-screen w-full items-center justify-center">
       <div className="flex flex-col gap-4 w-full max-w-xl">
-        <header className="flex flex-col gap-4">
+        <header className="flex flex-col gap-2">
           <BrandLogo />
           <div>
             <h1 className="text-lg font-bold">
@@ -96,7 +98,9 @@ export default function AuthForm({ type }: AuthFormProps) {
           </div>
         </header>
         {user ? (
-          <div className="flex flex-col gap-4">{/* PLAID LINK */}</div>
+          <div className="flex flex-col gap-2">
+            <PlaidLink user={user} variant="primary" />
+          </div>
         ) : (
           <>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -126,17 +130,23 @@ export default function AuthForm({ type }: AuthFormProps) {
                     <div className="grid grid-cols-2 gap-2">
                       <CustomInput
                         control={form.control}
+                        label="City"
+                        name="city"
+                        placeholder="ex:New York"
+                      />
+                      <CustomInput
+                        control={form.control}
                         label="State"
                         name="state"
                         placeholder="ex:NY"
                       />
-                      <CustomInput
-                        control={form.control}
-                        label="Postal Code"
-                        name="postalCode"
-                        placeholder="ex:11101"
-                      />
                     </div>
+                    <CustomInput
+                      control={form.control}
+                      label="Postal Code"
+                      name="postalCode"
+                      placeholder="ex:11101"
+                    />
                     <div className="grid grid-cols-2 gap-2">
                       <CustomInput
                         control={form.control}
@@ -148,7 +158,7 @@ export default function AuthForm({ type }: AuthFormProps) {
                         control={form.control}
                         label="SSN"
                         name="ssn"
-                        placeholder="ex:1234"
+                        placeholder="ex:123456789"
                       />
                     </div>
                   </>

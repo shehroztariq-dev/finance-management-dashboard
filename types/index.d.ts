@@ -26,7 +26,7 @@ declare type LoginUser = {
 };
 
 declare type User = {
-  id: string;
+  $id: string;
   email: string;
   emailVerified: boolean;
   name: string;

@@ -20,7 +20,7 @@ export default function CustomInput<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid} className="gap-1.5">
+        <Field data-invalid={fieldState.invalid} className="gap-0.5">
           <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
 
           <Input
