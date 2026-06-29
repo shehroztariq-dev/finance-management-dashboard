@@ -28,7 +28,9 @@ export default async function AuthLayout({
             src="/app-screenshot.png"
             alt="App preview"
             fill
-            sizes="(min-width: 1024px) 46vw, 0px"
+            priority
+            sizes="(min-width: 1024px) 60vw, 0px"
+            quality={100}
             className="object-cover object-top-left"
           />
         </div>

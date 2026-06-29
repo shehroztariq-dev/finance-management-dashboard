@@ -1,7 +1,9 @@
-import { withSentryConfig } from '@sentry/nextjs';
+import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // your options
+  images: {
+    qualities: [75, 100],
+  },
 };
 
 export default withSentryConfig(nextConfig, {
@@ -39,5 +41,5 @@ export default withSentryConfig(nextConfig, {
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       removeDebugLogging: true,
     },
-  }
+  },
 });

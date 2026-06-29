@@ -197,8 +197,8 @@ export default function AuthForm({ type }: AuthFormProps) {
           <footer className="flex items-center justify-center gap-1">
             <p className="text-sm text-gray-600 font-normal">
               {type === "sign-in"
-                ? "Don't have an account?"
-                : "Already have an account"}
+                ? "Don't have an account? "
+                : "Already have an account? "}
             </p>
             <Link
               href={type === "sign-in" ? "/sign-up" : "/sign-in"}

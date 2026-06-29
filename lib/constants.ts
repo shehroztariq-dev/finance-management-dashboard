@@ -8,17 +8,17 @@ export const sidebarLinks = [
   },
   {
     icon: Landmark,
-    route: "/my-banks",
+    route: "/banks",
     label: "My Banks",
   },
   {
     icon: ArrowRightLeft,
-    route: "/transaction-history",
+    route: "/transactions",
     label: "Transaction History",
   },
   {
     icon: Send,
-    route: "/payment-transfer",
+    route: "/payments",
     label: "Transfer Funds",
   },
 ];
